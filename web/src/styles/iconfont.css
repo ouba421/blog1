@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "iconfont";
+  src: url("../assets/fonts/iconfont.woff?t=1609139757535") format("woff"),
+    url("../assets/fonts/iconfont.ttf?t=1609139757535") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-tubiaozhizuo-:before {
+  content: "\e60d";
+}
+
+.icon-pinglun:before {
+  content: "\e695";
+}
+
+.icon-html5:before {
+  content: "\eb10";
+}
+
+.icon-vuejs:before {
+  content: "\e849";
+}
+
+.icon-react:before {
+  content: "\e741";
+}
+
+.icon-angular:before {
+  content: "\e6c7";
+}
