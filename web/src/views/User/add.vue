@@ -17,7 +17,7 @@
               :maxlength="10"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item v-if="path == '/user/add'" label="密码" prop="password">
             <el-input
               v-model.trim="userForm.password"
               :maxlength="10"
