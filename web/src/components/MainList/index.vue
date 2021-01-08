@@ -4,7 +4,7 @@
       <li>热门</li>
       <li>最新</li>
     </ul>
-    <the-item v-for="item in count" :key="item"></the-item>
+    <the-item v-for="item in list" :key="item" :item="item"></the-item>
   </div>
 </template>
 <script>
@@ -17,6 +17,12 @@ export default {
     return {
       count: 0,
     };
+  },
+  props: {
+    list: {
+      type: Array,
+      default: []
+    }
   },
   computed: {},
   watch: {

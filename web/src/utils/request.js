@@ -1,6 +1,5 @@
 import axios from "axios";
 import Vue from "vue";
-import { MessageBox } from "element-ui";
 import router from "@/router";
 // create an axios instance
 const service = axios.create({
@@ -34,7 +33,7 @@ service.interceptors.response.use(
       // 401:Token 过期了;
       if (res.code === 401) {
         // 请自行在引入 MessageBox
-        MessageBox.confirm("登录失效请重新登录", "登录失效", {
+        Vue.prototype.$confirm("登录失效请重新登录", "登录失效", {
           confirmButtonText: "重新登录",
           closeOnClickModal: false,
           showClose: false,
@@ -44,10 +43,8 @@ service.interceptors.response.use(
           sessionStorage.clear();
         });
       }
-      return Promise.reject("error");
-    } else {
-      return response.data;
     }
+    return response.data;
   },
   error => {
     Vue.prototype.$message({

@@ -20,4 +20,21 @@ export let userTypeList = [
   },
 ];
 
-// export
+export let articleType = [
+  {
+    value: "0",
+    label: "HTML5",
+  },
+  {
+    value: "1",
+    label: "Vue",
+  },
+  {
+    value: "2",
+    label: "React",
+  },
+  {
+    value: "3",
+    label: "Angular",
+  },
+];

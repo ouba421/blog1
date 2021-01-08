@@ -64,6 +64,7 @@ export default {
   align-items: center;
   justify-content: flex-end;
   padding-right: 20px;
+  box-shadow: 0 4px 10px 4px rgba(0,0,0,.2);
 }
 .el-dropdown-link {
   cursor: pointer;

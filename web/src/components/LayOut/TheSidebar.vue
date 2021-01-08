@@ -166,6 +166,7 @@ export default {
 .the-sidebar {
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 10px 4px rgba(0,0,0,.2);
 }
 .the-sidebar-title {
   height: 85px;

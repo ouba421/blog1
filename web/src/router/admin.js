@@ -23,6 +23,29 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/article", // 文章列表
+    component: Layout,
+    redirect: "/article/list",
+    children: [
+      {
+        path: "list",
+        component: () => import("@/views/Article"),
+      },
+      {
+        path: "add",
+        component: () => import("@/views/Article/add"),
+      },
+      {
+        path: "edit",
+        component: () => import("@/views/Article/add"),
+      },
+      {
+        path: "detail/:id",
+        component: () => import("@/views/Article/detail"),
+      },
+    ],
+  },
 ];
 
 export default routes;

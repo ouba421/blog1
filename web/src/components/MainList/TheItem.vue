@@ -2,10 +2,10 @@
   <div class="item">
     <div class="item-left">
       <p class="item-left-top">
-        大帅搞全栈/16小时前/JavaScript
+        大帅搞全栈/16小时前/{{item.type}}
       </p>
       <p class="item-left-title" @click="goArticelDtl">
-        爱了爱了🌹，这个VSCode插件极大提升你的工mo作yu效率 | 创作者训练营
+        {{item.title}}
       </p>
       <ul class="item-left-handle">
         <li>
@@ -28,12 +28,18 @@ export default {
   data() {
     return {};
   },
+  props: {
+    item: {
+      type: Object,
+      default: {}
+    }
+  },
   computed: {},
   watch: {},
   methods: {
     // 去文章详情
     goArticelDtl() {
-      this.$router.push("/home/detail/1");
+      this.$router.push(`/article/detail/${item._id}`);
     }
   },
   created() {},

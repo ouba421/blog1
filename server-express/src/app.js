@@ -7,6 +7,7 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/user";
+import articleRouter from "./routes/article";
 const app = express();
 app.use(logger("dev"));
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use(
 );
 
 app.use("/userApi", indexRouter);
+app.use("/articleApi", articleRouter);
 // error handler
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
