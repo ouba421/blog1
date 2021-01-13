@@ -1,10 +1,10 @@
 <template>
   <div class="main-list" v-infinite-scroll="load">
     <ul class="main-list-select">
-      <li>热门</li>
-      <li>最新</li>
+      <li @click="emit('hot')">热门</li>
+      <li @click="emit('new')">最新</li>
     </ul>
-    <the-item v-for="item in list" :key="item" :item="item"></the-item>
+    <the-item v-for="item in list" :key="item._id" :item="item"></the-item>
   </div>
 </template>
 <script>
@@ -16,27 +16,26 @@ export default {
   data() {
     return {
       count: 0,
+      activeType: ""
     };
   },
   props: {
     list: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
   computed: {},
   watch: {
-    "$route"(n, o) {
-      if (n.path !== o.path) {
-        // this.$router.replace({
-        //   path: "/reload"
-        // });
-      }
-    }
   },
   methods: {
     load() {
-      this.count += 2;
+      this.$emit("load");
+    },
+    emit(type) {
+      this.$emit("query", type);
     }
   },
   created() {},

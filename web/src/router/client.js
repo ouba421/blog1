@@ -3,15 +3,14 @@ const routes = [
   {
     path: "/home", // 首页
     component: Layout,
-    redirect: "/home/index/JavaScript",
+    redirect: "/home/index/1",
     children: [
       {
         path: "index/:type",
         component: () => import("@/views/Home"),
-      },
-      {
-        path: "detail/:id",
-        component: () => import("@/views/Detail"),
+        meta: {
+          permission: ["client"]
+        }
       },
     ],
   },

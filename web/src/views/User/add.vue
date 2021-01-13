@@ -179,7 +179,6 @@ export default {
             this.editUserF();
           }
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

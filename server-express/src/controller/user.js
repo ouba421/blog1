@@ -204,3 +204,43 @@ export async function login(req, res, next) {
     data: user,
   });
 }
+
+// 获取菜单
+export function getMenu(req, res, next) {
+  if (!req.headers.token) {
+    res.send({
+      code: 300,
+      type: "error",
+      msg: "token不能为空",
+    });
+    return;
+  }
+  // 获取token里面的用户信息
+  var decoded = jsonwebtoken.verify(req.headers.token, secret);
+  var menu = require("./menu");
+  console.log(menu);
+  UserModel.findOne({ username: decoded.username }, "type", (err, user) => {
+    if (err) {
+      res.send({
+        code: 300,
+        type: "error",
+        msg: err.message,
+      });
+      return;
+    }
+    // 管理员
+    if (user.type === "0") {
+      res.send({
+        code: 200,
+        type: "success",
+        data: menu.adminMenu,
+      });
+    } else {
+      res.send({
+        code: 200,
+        type: "success",
+        data: menu.clientMenu,
+      });
+    }
+  });
+}

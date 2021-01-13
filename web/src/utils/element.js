@@ -25,6 +25,7 @@ import {
   Pagination,
   Radio,
   RadioGroup,
+  Upload
 } from "element-ui";
 import "@/styles/element-variables.scss";
 
@@ -52,6 +53,7 @@ Vue.use(TableColumn);
 Vue.use(Pagination);
 Vue.use(Radio);
 Vue.use(RadioGroup);
+Vue.use(Upload);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;

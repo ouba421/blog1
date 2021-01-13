@@ -39,4 +39,12 @@ export function queryOneArticle(params) {
   });
 }
 
+// 编辑用户
+export function eidtArticle(data) {
+  return request({
+    url: `${BSL}/edit`,
+    method: "post",
+    data
+  });
+}
 

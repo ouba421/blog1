@@ -57,3 +57,10 @@ export function login(data) {
   });
 }
 
+export function getMenu() {
+  return request({
+    url: `${BSL}/getMenu`,
+    method: "get",
+  });
+}
+

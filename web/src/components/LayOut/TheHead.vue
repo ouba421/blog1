@@ -3,7 +3,7 @@
     <el-avatar :size="50" :src="headerImg"></el-avatar>
     <el-dropdown @command="command">
       <span class="el-dropdown-link">
-        <b class="el-dropdown-link_name">{{getUserInfo.username}}</b
+        <b class="el-dropdown-link_name">{{ getUserInfo.username }}</b
         ><i class="el-icon-caret-bottom"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
@@ -13,18 +13,22 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   components: {},
   data() {
     return {
-      headerImg: require("@/assets/images/header_man.png"),
     };
   },
   computed: {
     ...mapGetters(["getUserInfo"]),
     admin() {
       return this.getUserInfo.type === "0";
+    },
+    headerImg() {
+      return this.getUserInfo.sex === "0"
+        ? require("@/assets/images/header_woman.png")
+        : require("@/assets/images/header_man.png");
     },
   },
   watch: {},
@@ -64,7 +68,7 @@ export default {
   align-items: center;
   justify-content: flex-end;
   padding-right: 20px;
-  box-shadow: 0 4px 10px 4px rgba(0,0,0,.2);
+  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.2);
 }
 .el-dropdown-link {
   cursor: pointer;

@@ -19,5 +19,9 @@ router.get("/queryOne", User.queryOneUser);
 // 用户登录
 router.post("/login", User.login);
 
+// 获取菜单
+router.get("/getMenu", User.getMenu);
+
+
 
 export default router;

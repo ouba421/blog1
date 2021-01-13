@@ -147,7 +147,7 @@ size="small"
 </template>
 <script>
 import Page from "@/components/Page";
-import { queryUser, editUser, delUser } from "@/api/user";
+import { queryUser, delUser } from "@/api/user";
 import { initNull } from "@/utils/index";
 import { userTypeList, sexList } from "@/utils/const";
 export default {

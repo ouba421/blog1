@@ -13,6 +13,10 @@ const articleSchema = new Schema({
     type: String,
     required: true,
   },
+  commentnum: {  // 文章评论次数
+    type: Number,
+    default: 0
+  },
   link: String, // 文章链接
   content: String, // 文章内容
   delStatus: {

@@ -12,6 +12,11 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      "/commentApi": {
+        target: "http://10.6.71.44:10017",
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
   css: {

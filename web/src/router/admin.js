@@ -8,18 +8,30 @@ const routes = [
       {
         path: "list",
         component: () => import("@/views/User"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
         path: "add",
         component: () => import("@/views/User/add"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
         path: "edit",
         component: () => import("@/views/User/add"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
         path: "detail",
         component: () => import("@/views/User/add"),
+        meta: {
+          permission: ["admin"]
+        }
       },
     ],
   },
@@ -31,18 +43,30 @@ const routes = [
       {
         path: "list",
         component: () => import("@/views/Article"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
         path: "add",
         component: () => import("@/views/Article/add"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
         path: "edit",
         component: () => import("@/views/Article/add"),
+        meta: {
+          permission: ["admin"]
+        }
       },
       {
-        path: "detail/:id",
+        path: "detail",
         component: () => import("@/views/Article/detail"),
+        meta: {
+          permission: ["admin", "client"]
+        }
       },
     ],
   },

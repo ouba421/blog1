@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 import { login } from "@/api/user";
 export default {
   components: {},

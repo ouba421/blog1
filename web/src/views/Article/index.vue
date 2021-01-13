@@ -139,7 +139,7 @@ size="small"
 </template>
 <script>
 import Page from "@/components/Page";
-import { queryArticle, editUser, delArticle } from "@/api/article";
+import { queryArticle, delArticle } from "@/api/article";
 import { initNull } from "@/utils/index";
 import { articleType } from "@/utils/const";
 export default {
@@ -310,9 +310,6 @@ export default {
       switch (column.property) {
         case "type":
           ary = this.articleType;
-          break;
-        // case "sex":
-        //   ary = this.sexList;
           break;
         default:
           break;

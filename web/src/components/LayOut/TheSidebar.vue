@@ -12,104 +12,28 @@
       @open="handleOpen"
       @close="handleClose"
     >
-      <template v-for="(item, index) in list">
-        <el-submenu
-          v-if="Array.isArray(item.children)"
-          :index="index + ''"
-          :key="index"
-        >
-          <template slot="title">
-            <i
-              :class="item.icon"
-              class="iconfont"
-              :style="{ color: item.iconColor }"
-            ></i>
-            <span class="nav-title">{{ item.title }}</span>
-          </template>
-          <el-menu-item-group>
-            <el-menu-item
-              v-for="(child, index_c) in item.children"
-              :index="index + '-' + index_c"
-              :key="index + '-' + index_c"
-              class="nav_second-title"
-              @click="goPage(child, index + '-' + index_c)"
-            >
-              {{ child.title }}
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item v-else :index="index + ''" :key="index">
-          <i
-            :class="item.icon"
-            class="iconfont"
-            :style="{ color: item.iconColor }"
-          ></i>
-          <span slot="title" class="nav-title">{{ item.title }}</span>
-        </el-menu-item>
-      </template>
+      <el-menu-item
+        v-for="(item, index) in list"
+        :index="index + ''"
+        :key="index"
+        class="nav_second-title"
+        @click="goPage(item, index)"
+      >
+        <i :class="item.icon" class="iconfont"></i>
+        <span slot="title">{{ item.title }}</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { getMenu } from "@/api/user";
 export default {
   components: {},
   data() {
     return {
-      activeIndex: "0-0",
-      list: [
-        {
-          title: "HTML5",
-          path: "",
-          icon: "icon-html5",
-          children: [
-            {
-              title: "JavaScript",
-              url: "JavaScript",
-              path: "",
-            },
-            {
-              title: "Html",
-              url: "Html",
-              path: "",
-            },
-            {
-              title: "Css",
-              url: "Css",
-              path: "",
-            },
-          ],
-        },
-        {
-          title: "Vue",
-          path: "",
-          icon: "icon-vuejs",
-          children: [
-            {
-              title: "Vue-Router",
-              url: "VueRouter",
-              path: "",
-            },
-            {
-              title: "Vux",
-              url: "Vux",
-              path: "",
-            },
-          ],
-        },
-        {
-          title: "React",
-          path: "",
-          icon: "icon-react",
-          children: [],
-        },
-        {
-          title: "Angular",
-          path: "",
-          icon: "icon-angular",
-          children: [],
-        },
-      ],
+      activeIndex: "0",
+      list: [],
     };
   },
   computed: {
@@ -128,33 +52,49 @@ export default {
       return {};
     },
   },
-  watch: {},
+  watch: {
+    $route(n, o) {
+      if (n.path.indexOf("/home/index") !== -1) {
+        this.$router.push("/reload");
+      }
+    },
+  },
   methods: {
     handleOpen(key, keyPath) {},
     handleClose(key, keyPath) {},
+    getMenuF() {
+      getMenu().then((res) => {
+        if (res.code === 200) {
+          this.list = res.data;
+          this.getActiveIndex();
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "error",
+            duration: 3000,
+          });
+        }
+      });
+    },
     //
     goPage(item) {
-      this.$router.push("/home/index/" + item.url);
+      this.$router.push(item.path);
     },
     // 刷新获取单签active
     getActiveIndex() {
       this.list.forEach((element, index) => {
-        if (Array.isArray(element.children)) {
-          element.children.forEach((item, index2) => {
-            if (item.url === this.$route.params.type) {
-              this.activeIndex = index + "-" + index2;
-            }
-          });
+        if (element.path === this.$route.path) {
+          this.activeIndex = index + "";
         }
       });
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getMenuF();
+  },
   beforeCreate() {}, // 生命周期 - 创建之前
-  beforeMount() {
-    this.getActiveIndex();
-  }, // 生命周期 - 挂载之前
+  beforeMount() {}, // 生命周期 - 挂载之前
   beforeUpdate() {}, // 生命周期 - 更新之前
   updated() {}, // 生命周期 - 更新之后
   beforeDestroy() {}, // 生命周期 - 销毁之前
@@ -164,9 +104,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .the-sidebar {
+  width: 200px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 10px 4px rgba(0,0,0,.2);
+  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.2);
 }
 .the-sidebar-title {
   height: 85px;

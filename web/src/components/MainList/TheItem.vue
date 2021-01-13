@@ -2,9 +2,9 @@
   <div class="item">
     <div class="item-left">
       <p class="item-left-top">
-        大帅搞全栈/16小时前/{{item.type}}
+        {{item.creatman.username}} | {{moment(item.creattime).calendar()}} | {{item.type | typeFilter}}
       </p>
-      <p class="item-left-title" @click="goArticelDtl">
+      <p class="item-left-title" @click="goArticelDtl(item)">
         {{item.title}}
       </p>
       <ul class="item-left-handle">
@@ -14,7 +14,7 @@
         </li>
         <li>
           <i class="iconfont icon-pinglun"></i>
-          <span>999+</span>
+          <span>{{item.commentnum}}</span>
         </li>
       </ul>
     </div>
@@ -23,27 +23,47 @@
   </div>
 </template>
 <script>
+import { articleType } from "@/utils/const";
+import moment from "moment";
+moment.locale("zh-cn");
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      moment
+    };
   },
   props: {
     item: {
       type: Object,
-      default: {}
+      default: () => {
+        return {};
+      }
     }
   },
   computed: {},
+  filters: {
+    typeFilter(type) {
+      let value;
+      articleType.forEach(element => {
+        if (element.value === type) {
+          value = element.label;
+        }
+      });
+      return value;
+    }
+  },
   watch: {},
   methods: {
     // 去文章详情
-    goArticelDtl() {
-      this.$router.push(`/article/detail/${item._id}`);
-    }
+    goArticelDtl(item) {
+      this.$router.push(`/article/detail/?id=${item._id}`);
+    },
+    //
   },
   created() {},
-  mounted() {},
+  mounted() {
+  },
   beforeCreate() {}, // 生命周期 - 创建之前
   beforeMount() {}, // 生命周期 - 挂载之前
   beforeUpdate() {}, // 生命周期 - 更新之前
@@ -68,7 +88,7 @@ export default {
 }
 .item-left-top{
   font-size: 14px;
-  color: #b2bac2;
+  color: #333;
 }
 .item-left-title{
   font-size: 20px;

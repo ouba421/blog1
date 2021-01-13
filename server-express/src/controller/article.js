@@ -39,9 +39,45 @@ export function delArticle(req, res, next) {
     });
     return;
   }
-  ArticleModel.findOneAndUpdate({ _id: req.query.id }, { delStatus: 0 }, function (
-    err
-  ) {
+  ArticleModel.findOneAndUpdate(
+    { _id: req.query.id },
+    { delStatus: 0 },
+    function (err) {
+      if (err) {
+        res.send({
+          code: 300,
+          type: "error",
+          msg: err.message,
+        });
+      } else {
+        res.send({
+          code: 200,
+          type: "success",
+        });
+      }
+    }
+  );
+}
+// 改
+export function eidtArticle(req, res, next) {
+  let { content, type, link, title, id } = req.body;
+  let article = {
+    content,
+    link,
+    title,
+    type,
+    changetime: new Date(), // 修改时间
+  };
+
+  if (!id) {
+    res.send({
+      code: 300,
+      type: "error",
+      msg: "文章id不能为空",
+    });
+    return;
+  }
+  ArticleModel.findOneAndUpdate({ _id: id }, article, (err, user) => {
     if (err) {
       res.send({
         code: 300,
@@ -56,11 +92,9 @@ export function delArticle(req, res, next) {
     }
   });
 }
-// 改
-export function eidtArticle(req, res, next) {}
 // 查列表
 export async function queryArticle(req, res, next) {
-  let { pageSize, pageNum, ...queryInfo } = req.query;
+  let { pageSize, pageNum, filter, ...queryInfo } = req.query;
   if (queryInfo.title) {
     queryInfo.title = new RegExp(queryInfo.title, "i");
   }
@@ -68,8 +102,21 @@ export async function queryArticle(req, res, next) {
   let articleLength = await ArticleModel.find(queryObj, "-delStatus")
     .count()
     .exec();
-  // populate 填充用戶集合
   ArticleModel.find(queryObj, "-delStatus")
+    .sort(
+      (() => {
+        if (filter === "new") {
+          return {
+            creattime: -1,
+          };
+        } else if (filter === "hot") {
+          return {
+            commentnum: -1,
+          };
+        }
+      })()
+    )
+    // populate 填充用戶集合
     .populate({ path: "creatman", select: "username" })
     .skip(+pageSize * (+pageNum - 1))
     .limit(+pageSize)
@@ -103,19 +150,21 @@ export function queryOneArticle(req, res, next) {
     });
     return;
   }
-  ArticleModel.findById(req.query.id, "title type content link", function (err, doc) {
-    if (err) {
-      res.send({
-        code: 300,
-        type: "error",
-        msg: err.message,
-      });
-    } else {
-      res.send({
-        code: 200,
-        type: "success",
-        data: doc,
-      });
-    }
-  });
+  ArticleModel.findById(req.query.id, "-delStatus")
+    .populate({ path: "creatman", select: "username sex" })
+    .exec(function (err, doc) {
+      if (err) {
+        res.send({
+          code: 300,
+          type: "error",
+          msg: err.message,
+        });
+      } else {
+        res.send({
+          code: 200,
+          type: "success",
+          data: doc,
+        });
+      }
+    });
 }

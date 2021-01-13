@@ -52,11 +52,10 @@
   </div>
 </template>
 <script>
-import { addArticle, queryOneArticle } from "@/api/article";
+import { addArticle, queryOneArticle, eidtArticle } from "@/api/article";
 import { articleType } from "@/utils/const";
 import { mapGetters } from "vuex";
-import E from 'wangeditor';
-import xss from "xss";
+import E from "wangeditor";
 export default {
   components: {},
   data() {
@@ -65,7 +64,7 @@ export default {
       path: this.$route.path,
       articleForm: {
         type: "", // 文章类型
-        title: "",// 文章标题,
+        title: "", // 文章标题,
         link: "", // 文章链接
         content: "", // 文章内容
       },
@@ -79,6 +78,7 @@ export default {
       },
       editor: {}, // 文本編輯器
       articleType,
+      articleId: this.$route.query.id,
     };
   },
   computed: {
@@ -86,15 +86,15 @@ export default {
   },
   watch: {},
   methods: {
-    eidtInit(){
-      this.editor = new E('#edit');
+    eidtInit() {
+      this.editor = new E("#edit");
       this.editor.config.zIndex = 500;
       this.editor.create();
     },
     // 添加用户
     addUserF() {
       this.loading = true;
-      this.articleForm.content = xss(this.editor.txt.html());
+      this.articleForm.content = this.editor.txt.html();
       this.articleForm.creatman = this.getUserInfo._id;
       addArticle(this.articleForm)
         .then((res) => {
@@ -119,12 +119,12 @@ export default {
     },
     editUserF() {
       this.loading = true;
-      this.userForm.id = this.userForm._id;
-      delete this.userForm._id;
-      editUser(this.userForm)
+      this.articleForm.id = this.articleId;
+      this.articleForm.content = this.editor.txt.html();
+      eidtArticle(this.articleForm)
         .then((res) => {
           if (res.code === 200) {
-            this.$confirm("用户编辑成功", "提示", {
+            this.$confirm("文章编辑成功", "提示", {
               confirmButtonText: "确定",
               type: "success",
             }).finally(() => {
@@ -151,7 +151,6 @@ export default {
             this.editUserF();
           }
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -162,11 +161,15 @@ export default {
     // 查询用户
     queryDetail() {
       let parmas = {
-        id: this.$route.query.id,
+        id: this.articleId,
       };
       queryOneArticle(parmas).then((res) => {
         if (res.code === 200) {
-          this.articleForm = res.data;
+          for (let key in this.articleForm) {
+            if ({}.hasOwnProperty.call(this.articleForm, key)) {
+              this.articleForm[key] = res.data[key];
+            }
+          }
           this.editor.txt.html(this.articleForm.content);
         } else {
           this.$message({
